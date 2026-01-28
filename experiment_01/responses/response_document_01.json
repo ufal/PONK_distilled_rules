@@ -1,0 +1,136 @@
+{
+  "source_document": "document_01.md",
+  "model": "gpt-4-0125-preview",
+  "created": 1768471644,
+  "usage": {
+    "prompt_tokens": 5963,
+    "completion_tokens": 725,
+    "total_tokens": 6688
+  },
+  "content": "{\n  \"annotations\": [\n    {\n      \"start\": 0,\n      \"end\": 285,\n      \"label\": \"09_Nezařaditelné\"\n    },\n    {\n      \"start\": 286,\n      \"end\": 541,\n      \"label\": \"01_Situace\"\n    },\n    {\n      \"start\": 542,\n      \"end\": 1085,\n      \"label\": \"02_Kontext\"\n    },\n    {\n      \"start\": 1086,\n      \"end\": 1428,\n      \"label\": \"03_Postup\"\n    },\n    {\n      \"start\": 1429,\n      \"end\": 1597,\n      \"label\": \"05_Podmínky\"\n    },\n    {\n      \"start\": 1598,\n      \"end\": 1723,\n      \"label\": \"03_Postup\"\n    },\n    {\n      \"start\": 1724,\n      \"end\": 1963,\n      \"label\": \"05_Podmínky\"\n    },\n    {\n      \"start\": 1964,\n      \"end\": 2201,\n      \"label\": \"03_Postup\"\n    },\n    {\n      \"start\": 2202,\n      \"end\": 2345,\n      \"label\": \"04_Proces\"\n    },\n    {\n      \"start\": 2346,\n      \"end\": 2537,\n      \"label\": \"03_Postup\"\n    },\n    {\n      \"start\": 2538,\n      \"end\": 2781,\n      \"label\": \"05_Podmínky\"\n    },\n    {\n      \"start\": 2782,\n      \"end\": 3071,\n      \"label\": \"04_Proces\"\n    },\n    {\n      \"start\": 3072,\n      \"end\": 3198,\n      \"label\": \"03_Postup\"\n    },\n    {\n      \"start\": 3199,\n      \"end\": 3461,\n      \"label\": \"04_Proces\"\n    },\n    {\n      \"start\": 3462,\n      \"end\": 3589,\n      \"label\": \"03_Postup\"\n    },\n    {\n      \"start\": 3590,\n      \"end\": 3686,\n      \"label\": \"04_Proces\"\n    },\n    {\n      \"start\": 3687,\n      \"end\": 3923,\n      \"label\": \"08_Prameny\"\n    },\n    {\n      \"start\": 3924,\n      \"end\": 4129,\n      \"label\": \"08_Prameny\"\n    },\n    {\n      \"start\": 4130,\n      \"end\": 4318,\n      \"label\": \"08_Prameny\"\n    },\n    {\n      \"start\": 4319,\n      \"end\": 4511,\n      \"label\": \"08_Prameny\"\n    },\n    {\n      \"start\": 4512,\n      \"end\": 4689,\n      \"label\": \"08_Prameny\"\n    },\n    {\n      \"start\": 4690,\n      \"end\": 4869,\n      \"label\": \"08_Prameny\"\n    },\n    {\n      \"start\": 4870,\n      \"end\": 5055,\n      \"label\": \"08_Prameny\"\n    },\n    {\n      \"start\": 5056,\n      \"end\": 5245,\n      \"label\": \"08_Prameny\"\n    }\n  ]\n}",
+  "finish_reason": "stop",
+  "annotations": {
+    "annotations": [
+      {
+        "start": 0,
+        "end": 285,
+        "label": "09_Nezařaditelné"
+      },
+      {
+        "start": 286,
+        "end": 541,
+        "label": "01_Situace"
+      },
+      {
+        "start": 542,
+        "end": 1085,
+        "label": "02_Kontext"
+      },
+      {
+        "start": 1086,
+        "end": 1428,
+        "label": "03_Postup"
+      },
+      {
+        "start": 1429,
+        "end": 1597,
+        "label": "05_Podmínky"
+      },
+      {
+        "start": 1598,
+        "end": 1723,
+        "label": "03_Postup"
+      },
+      {
+        "start": 1724,
+        "end": 1963,
+        "label": "05_Podmínky"
+      },
+      {
+        "start": 1964,
+        "end": 2201,
+        "label": "03_Postup"
+      },
+      {
+        "start": 2202,
+        "end": 2345,
+        "label": "04_Proces"
+      },
+      {
+        "start": 2346,
+        "end": 2537,
+        "label": "03_Postup"
+      },
+      {
+        "start": 2538,
+        "end": 2781,
+        "label": "05_Podmínky"
+      },
+      {
+        "start": 2782,
+        "end": 3071,
+        "label": "04_Proces"
+      },
+      {
+        "start": 3072,
+        "end": 3198,
+        "label": "03_Postup"
+      },
+      {
+        "start": 3199,
+        "end": 3461,
+        "label": "04_Proces"
+      },
+      {
+        "start": 3462,
+        "end": 3589,
+        "label": "03_Postup"
+      },
+      {
+        "start": 3590,
+        "end": 3686,
+        "label": "04_Proces"
+      },
+      {
+        "start": 3687,
+        "end": 3923,
+        "label": "08_Prameny"
+      },
+      {
+        "start": 3924,
+        "end": 4129,
+        "label": "08_Prameny"
+      },
+      {
+        "start": 4130,
+        "end": 4318,
+        "label": "08_Prameny"
+      },
+      {
+        "start": 4319,
+        "end": 4511,
+        "label": "08_Prameny"
+      },
+      {
+        "start": 4512,
+        "end": 4689,
+        "label": "08_Prameny"
+      },
+      {
+        "start": 4690,
+        "end": 4869,
+        "label": "08_Prameny"
+      },
+      {
+        "start": 4870,
+        "end": 5055,
+        "label": "08_Prameny"
+      },
+      {
+        "start": 5056,
+        "end": 5245,
+        "label": "08_Prameny"
+      }
+    ]
+  }
+}

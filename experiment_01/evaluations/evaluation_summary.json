@@ -1,0 +1,17 @@
+{
+  "total_documents": 2,
+  "documents": [
+    {
+      "source_document": "document_01.md",
+      "micro_f1": 0.0918,
+      "macro_f1": 0.0739,
+      "labels_consistent": false
+    },
+    {
+      "source_document": "document_02.md",
+      "micro_f1": 0.1881,
+      "macro_f1": 0.1238,
+      "labels_consistent": false
+    }
+  ]
+}

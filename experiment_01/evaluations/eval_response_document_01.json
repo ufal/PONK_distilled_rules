@@ -1,0 +1,121 @@
+{
+  "source_document": "document_01.md",
+  "doc_id": "671918e2c6537d54ff0626db",
+  "document_length": 11549,
+  "gold_annotation_count": 122,
+  "pred_annotation_count": 24,
+  "label_verification": {
+    "gold_only": [
+      "06_ Doporučení",
+      "07_Odkazy"
+    ],
+    "pred_only": [],
+    "common": [
+      "01_Situace",
+      "02_Kontext",
+      "03_Postup",
+      "04_Proces",
+      "05_Podmínky",
+      "08_Prameny",
+      "09_Nezařaditelné"
+    ],
+    "consistent": false
+  },
+  "overall_metrics": {
+    "micro": {
+      "precision": 0.1468,
+      "recall": 0.0668,
+      "f1": 0.0918,
+      "iou": 0.0481
+    },
+    "macro": {
+      "precision": 0.1785,
+      "recall": 0.0475,
+      "f1": 0.0739,
+      "iou": 0.0438
+    }
+  },
+  "per_label_metrics": {
+    "01_Situace": {
+      "true_positives": 0,
+      "false_positives": 256,
+      "false_negatives": 160,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "iou": 0.0
+    },
+    "02_Kontext": {
+      "true_positives": 114,
+      "false_positives": 430,
+      "false_negatives": 5658,
+      "precision": 0.2096,
+      "recall": 0.0198,
+      "f1": 0.0361,
+      "iou": 0.0184
+    },
+    "03_Postup": {
+      "true_positives": 0,
+      "false_positives": 1154,
+      "false_negatives": 334,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "iou": 0.0
+    },
+    "04_Proces": {
+      "true_positives": 401,
+      "false_positives": 393,
+      "false_negatives": 1877,
+      "precision": 0.505,
+      "recall": 0.176,
+      "f1": 0.2611,
+      "iou": 0.1501
+    },
+    "05_Podmínky": {
+      "true_positives": 0,
+      "false_positives": 653,
+      "false_negatives": 127,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "iou": 0.0
+    },
+    "06_ Doporučení": {
+      "true_positives": 0,
+      "false_positives": 0,
+      "false_negatives": 77,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "iou": 0.0
+    },
+    "07_Odkazy": {
+      "true_positives": 0,
+      "false_positives": 0,
+      "false_negatives": 10,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "iou": 0.0
+    },
+    "08_Prameny": {
+      "true_positives": 0,
+      "false_positives": 1559,
+      "false_negatives": 1665,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "iou": 0.0
+    },
+    "09_Nezařaditelné": {
+      "true_positives": 255,
+      "false_positives": 31,
+      "false_negatives": 844,
+      "precision": 0.8916,
+      "recall": 0.232,
+      "f1": 0.3682,
+      "iou": 0.2257
+    }
+  }
+}

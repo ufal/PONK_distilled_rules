@@ -1,0 +1,8 @@
+[project]
+name = "ponk-annotation-experiment"
+version = "0.1.0"
+description = "LLM-based annotation experiment for legal documents"
+requires-python = ">=3.10"
+dependencies = [
+    "openai>=1.0.0",
+]

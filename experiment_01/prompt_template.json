@@ -1,0 +1,10 @@
+{
+  "model": "gpt-4-turbo-preview",
+  "temperature": 0.2,
+  "max_tokens": 4096,
+  "response_format": { "type": "json_object" },
+  "api_key_env": "OPENAI_UFAL_API_KEY",
+  "system_message": "You are an expert legal document annotator. Your task is to analyze documents and provide structured JSON annotations. Always respond with valid JSON only, no additional text.",
+  "prompt_template_file": "payload_template.md",
+  "placeholder": "{DOCUMENT_TEXT}"
+}

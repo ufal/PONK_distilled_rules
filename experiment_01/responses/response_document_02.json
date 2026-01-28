@@ -1,0 +1,166 @@
+{
+  "source_document": "document_02.md",
+  "model": "gpt-4-0125-preview",
+  "created": 1768471664,
+  "usage": {
+    "prompt_tokens": 5952,
+    "completion_tokens": 897,
+    "total_tokens": 6849
+  },
+  "content": "{\n  \"annotations\": [\n    {\n      \"start\": 0,\n      \"end\": 197,\n      \"label\": \"01_Situace\"\n    },\n    {\n      \"start\": 198,\n      \"end\": 403,\n      \"label\": \"02_Kontext\"\n    },\n    {\n      \"start\": 404,\n      \"end\": 512,\n      \"label\": \"07_Odkazy\"\n    },\n    {\n      \"start\": 514,\n      \"end\": 1042,\n      \"label\": \"01_Situace\"\n    },\n    {\n      \"start\": 1043,\n      \"end\": 1273,\n      \"label\": \"03_Postup\"\n    },\n    {\n      \"start\": 1274,\n      \"end\": 1443,\n      \"label\": \"05_Podmínky\"\n    },\n    {\n      \"start\": 1444,\n      \"end\": 1569,\n      \"label\": \"08_Prameny\"\n    },\n    {\n      \"start\": 1570,\n      \"end\": 2023,\n      \"label\": \"02_Kontext\"\n    },\n    {\n      \"start\": 2024,\n      \"end\": 2264,\n      \"label\": \"03_Postup\"\n    },\n    {\n      \"start\": 2265,\n      \"end\": 2384,\n      \"label\": \"07_Odkazy\"\n    },\n    {\n      \"start\": 2385,\n      \"end\": 2671,\n      \"label\": \"02_Kontext\"\n    },\n    {\n      \"start\": 2672,\n      \"end\": 2783,\n      \"label\": \"08_Prameny\"\n    },\n    {\n      \"start\": 2784,\n      \"end\": 2905,\n      \"label\": \"03_Postup\"\n    },\n    {\n      \"start\": 2906,\n      \"end\": 3033,\n      \"label\": \"07_Odkazy\"\n    },\n    {\n      \"start\": 3034,\n      \"end\": 3240,\n      \"label\": \"02_Kontext\"\n    },\n    {\n      \"start\": 3241,\n      \"end\": 3362,\n      \"label\": \"08_Prameny\"\n    },\n    {\n      \"start\": 3363,\n      \"end\": 3476,\n      \"label\": \"03_Postup\"\n    },\n    {\n      \"start\": 3477,\n      \"end\": 3598,\n      \"label\": \"07_Odkazy\"\n    },\n    {\n      \"start\": 3599,\n      \"end\": 3821,\n      \"label\": \"02_Kontext\"\n    },\n    {\n      \"start\": 3822,\n      \"end\": 3943,\n      \"label\": \"08_Prameny\"\n    },\n    {\n      \"start\": 3944,\n      \"end\": 4057,\n      \"label\": \"03_Postup\"\n    },\n    {\n      \"start\": 4058,\n      \"end\": 4179,\n      \"label\": \"07_Odkazy\"\n    },\n    {\n      \"start\": 4180,\n      \"end\": 4426,\n      \"label\": \"02_Kontext\"\n    },\n    {\n      \"start\": 4427,\n      \"end\": 4548,\n      \"label\": \"08_Prameny\"\n    },\n    {\n      \"start\": 4549,\n      \"end\": 4662,\n      \"label\": \"03_Postup\"\n    },\n    {\n      \"start\": 4663,\n      \"end\": 4784,\n      \"label\": \"07_Odkazy\"\n    },\n    {\n      \"start\": 4785,\n      \"end\": 5027,\n      \"label\": \"02_Kontext\"\n    },\n    {\n      \"start\": 5028,\n      \"end\": 5149,\n      \"label\": \"08_Prameny\"\n    },\n    {\n      \"start\": 5150,\n      \"end\": 5263,\n      \"label\": \"03_Postup\"\n    },\n    {\n      \"start\": 5264,\n      \"end\": 5385,\n      \"label\": \"07_Odkazy\"\n    }\n  ]\n}",
+  "finish_reason": "stop",
+  "annotations": {
+    "annotations": [
+      {
+        "start": 0,
+        "end": 197,
+        "label": "01_Situace"
+      },
+      {
+        "start": 198,
+        "end": 403,
+        "label": "02_Kontext"
+      },
+      {
+        "start": 404,
+        "end": 512,
+        "label": "07_Odkazy"
+      },
+      {
+        "start": 514,
+        "end": 1042,
+        "label": "01_Situace"
+      },
+      {
+        "start": 1043,
+        "end": 1273,
+        "label": "03_Postup"
+      },
+      {
+        "start": 1274,
+        "end": 1443,
+        "label": "05_Podmínky"
+      },
+      {
+        "start": 1444,
+        "end": 1569,
+        "label": "08_Prameny"
+      },
+      {
+        "start": 1570,
+        "end": 2023,
+        "label": "02_Kontext"
+      },
+      {
+        "start": 2024,
+        "end": 2264,
+        "label": "03_Postup"
+      },
+      {
+        "start": 2265,
+        "end": 2384,
+        "label": "07_Odkazy"
+      },
+      {
+        "start": 2385,
+        "end": 2671,
+        "label": "02_Kontext"
+      },
+      {
+        "start": 2672,
+        "end": 2783,
+        "label": "08_Prameny"
+      },
+      {
+        "start": 2784,
+        "end": 2905,
+        "label": "03_Postup"
+      },
+      {
+        "start": 2906,
+        "end": 3033,
+        "label": "07_Odkazy"
+      },
+      {
+        "start": 3034,
+        "end": 3240,
+        "label": "02_Kontext"
+      },
+      {
+        "start": 3241,
+        "end": 3362,
+        "label": "08_Prameny"
+      },
+      {
+        "start": 3363,
+        "end": 3476,
+        "label": "03_Postup"
+      },
+      {
+        "start": 3477,
+        "end": 3598,
+        "label": "07_Odkazy"
+      },
+      {
+        "start": 3599,
+        "end": 3821,
+        "label": "02_Kontext"
+      },
+      {
+        "start": 3822,
+        "end": 3943,
+        "label": "08_Prameny"
+      },
+      {
+        "start": 3944,
+        "end": 4057,
+        "label": "03_Postup"
+      },
+      {
+        "start": 4058,
+        "end": 4179,
+        "label": "07_Odkazy"
+      },
+      {
+        "start": 4180,
+        "end": 4426,
+        "label": "02_Kontext"
+      },
+      {
+        "start": 4427,
+        "end": 4548,
+        "label": "08_Prameny"
+      },
+      {
+        "start": 4549,
+        "end": 4662,
+        "label": "03_Postup"
+      },
+      {
+        "start": 4663,
+        "end": 4784,
+        "label": "07_Odkazy"
+      },
+      {
+        "start": 4785,
+        "end": 5027,
+        "label": "02_Kontext"
+      },
+      {
+        "start": 5028,
+        "end": 5149,
+        "label": "08_Prameny"
+      },
+      {
+        "start": 5150,
+        "end": 5263,
+        "label": "03_Postup"
+      },
+      {
+        "start": 5264,
+        "end": 5385,
+        "label": "07_Odkazy"
+      }
+    ]
+  }
+}

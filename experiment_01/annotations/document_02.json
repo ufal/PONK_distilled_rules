@@ -1,0 +1,158 @@
+{
+  "source_document": "document_02.md",
+  "model": "gpt-4-0125-preview",
+  "total_tokens": 6849,
+  "finish_reason": "stop",
+  "annotations": [
+    {
+      "start": 0,
+      "end": 197,
+      "label": "01_Situace"
+    },
+    {
+      "start": 198,
+      "end": 403,
+      "label": "02_Kontext"
+    },
+    {
+      "start": 404,
+      "end": 512,
+      "label": "07_Odkazy"
+    },
+    {
+      "start": 514,
+      "end": 1042,
+      "label": "01_Situace"
+    },
+    {
+      "start": 1043,
+      "end": 1273,
+      "label": "03_Postup"
+    },
+    {
+      "start": 1274,
+      "end": 1443,
+      "label": "05_Podmínky"
+    },
+    {
+      "start": 1444,
+      "end": 1569,
+      "label": "08_Prameny"
+    },
+    {
+      "start": 1570,
+      "end": 2023,
+      "label": "02_Kontext"
+    },
+    {
+      "start": 2024,
+      "end": 2264,
+      "label": "03_Postup"
+    },
+    {
+      "start": 2265,
+      "end": 2384,
+      "label": "07_Odkazy"
+    },
+    {
+      "start": 2385,
+      "end": 2671,
+      "label": "02_Kontext"
+    },
+    {
+      "start": 2672,
+      "end": 2783,
+      "label": "08_Prameny"
+    },
+    {
+      "start": 2784,
+      "end": 2905,
+      "label": "03_Postup"
+    },
+    {
+      "start": 2906,
+      "end": 3033,
+      "label": "07_Odkazy"
+    },
+    {
+      "start": 3034,
+      "end": 3240,
+      "label": "02_Kontext"
+    },
+    {
+      "start": 3241,
+      "end": 3362,
+      "label": "08_Prameny"
+    },
+    {
+      "start": 3363,
+      "end": 3476,
+      "label": "03_Postup"
+    },
+    {
+      "start": 3477,
+      "end": 3598,
+      "label": "07_Odkazy"
+    },
+    {
+      "start": 3599,
+      "end": 3821,
+      "label": "02_Kontext"
+    },
+    {
+      "start": 3822,
+      "end": 3943,
+      "label": "08_Prameny"
+    },
+    {
+      "start": 3944,
+      "end": 4057,
+      "label": "03_Postup"
+    },
+    {
+      "start": 4058,
+      "end": 4179,
+      "label": "07_Odkazy"
+    },
+    {
+      "start": 4180,
+      "end": 4426,
+      "label": "02_Kontext"
+    },
+    {
+      "start": 4427,
+      "end": 4548,
+      "label": "08_Prameny"
+    },
+    {
+      "start": 4549,
+      "end": 4662,
+      "label": "03_Postup"
+    },
+    {
+      "start": 4663,
+      "end": 4784,
+      "label": "07_Odkazy"
+    },
+    {
+      "start": 4785,
+      "end": 5027,
+      "label": "02_Kontext"
+    },
+    {
+      "start": 5028,
+      "end": 5149,
+      "label": "08_Prameny"
+    },
+    {
+      "start": 5150,
+      "end": 5263,
+      "label": "03_Postup"
+    },
+    {
+      "start": 5264,
+      "end": 5385,
+      "label": "07_Odkazy"
+    }
+  ]
+}
