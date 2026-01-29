@@ -15,13 +15,13 @@ Combining developed ponk-app3 shell (dir `ponk-app3`) with LLM annotation experi
 | Step | Description | Status |
 |------|-------------|--------|
 | 1 | Wire up `llm_client.py` to call UFAL API (`https://ai.ufal.mff.cuni.cz/api/chat/completions`) | ✅ |
-| 2 | Update env vars: `AIUFAL_API_KEY`, model: `LLM3-AMD-MI210.gpt-oss:120b` | ✅ |
+| 2 | Update env vars: `AIUFAL_API_KEY`, model: `LLM3-AMD-MI210.llama3.3:latest` | ✅ |
 | 3 | Update prompt: no overlapping spans, wrapper object `{"annotations": [...]}` | ✅ |
 | 4 | Add error handling & timeout config | ✅ |
 | 5 | Test locally with sample CoNLL-U | ✅ |
 | 6 | Deploy to ponk-app3 VM | ⏳ |
 
-**Note:** UFAL LLM model names require server prefix (e.g., `LLM3-AMD-MI210.gpt-oss:120b`). List available models: `curl -s -H "Authorization: Bearer $AIUFAL_API_KEY" https://ai.ufal.mff.cuni.cz/api/models`
+**Note:** UFAL LLM model names require server prefix (e.g., `LLM3-AMD-MI210.llama3.3:latest`). List available models: `curl -s -H "Authorization: Bearer $AIUFAL_API_KEY" https://ai.ufal.mff.cuni.cz/api/models`
 
 ## CoNLL-U Format & Annotation Strategy
 
@@ -144,7 +144,7 @@ export AIUFAL_API_KEY="your-api-key-here"
 
 # Optional: override defaults
 export AIUFAL_ENDPOINT="https://ai.ufal.mff.cuni.cz/api/chat/completions"  # default
-export AIUFAL_MODEL="LLM3-AMD-MI210.gpt-oss:120b"                          # default
+export AIUFAL_MODEL="LLM3-AMD-MI210.llama3.3:latest"                          # default
 export AIUFAL_USE_MOCK="true"                                               # for testing without API
 ```
 
@@ -155,7 +155,7 @@ Create `~/ponk-app3/.env` with:
 AIUFAL_API_KEY=your-api-key-here
 # Optional overrides:
 # AIUFAL_ENDPOINT=https://ai.ufal.mff.cuni.cz/api/chat/completions
-# AIUFAL_MODEL=LLM3-AMD-MI210.gpt-oss:120b
+# AIUFAL_MODEL=LLM3-AMD-MI210.llama3.3:latest
 ```
 
 The systemd service (see below) reads this file via `EnvironmentFile=`, ensuring vars persist across VM restarts.
@@ -245,6 +245,60 @@ Useful commands:
 sudo systemctl status ponk-app3   # check status
 sudo systemctl restart ponk-app3  # restart after updates
 sudo journalctl -u ponk-app3 -f   # follow logs
+```
+
+---
+
+## Local Testing
+
+### Generating Test CoNLL-U Data
+
+The app expects input in CoNLL-U format. You can generate CoNLL-U from Czech text using UDPipe:
+
+```bash
+# Using UDPipe REST API
+echo "Pokud jste obdrželi výzvu k zaplacení pokuty." | \
+  curl -F data=@- -F model=czech-pdt-ud-2.12-230717 \
+  https://lindat.mff.cuni.cz/services/udpipe/api/process
+```
+
+Or use the Python UDPipe library, or manually create test data for simple cases.
+
+### Testing with curl
+
+**Basic test (short text):**
+
+```bash
+curl -X POST http://localhost:8000/api/annotate \
+  -H "Content-Type: application/json" \
+  -d '{
+  "result": "# sent_id = 1\n# text = Pokud jste obdrželi výzvu k zaplacení pokuty za přestupek, měli byste nejprve ověřit, zda je výzva oprávněná.\n1\tPokud\tpokud\tSCONJ\t_\t_\t4\tmark\t_\t_\n2\tjste\tbýt\tAUX\t_\t_\t4\taux\t_\t_\n3\tobdrželi\tobdržet\tVERB\t_\t_\t4\tadvcl\t_\t_\n4\tvýzvu\tvýzva\tNOUN\t_\t_\t0\troot\t_\t_\n5\tk\tk\tADP\t_\t_\t6\tcase\t_\t_\n6\tzaplacení\tzaplacení\tNOUN\t_\t_\t4\tnmod\t_\t_\n7\tpokuty\tpokuta\tNOUN\t_\t_\t6\tnmod\t_\t_\n8\tza\tza\tADP\t_\t_\t9\tcase\t_\t_\n9\tpřestupek\tpřestupek\tNOUN\t_\t_\t7\tnmod\t_\tSpaceAfter=No\n10\t,\t,\tPUNCT\t_\t_\t4\tpunct\t_\t_\n11\tměli\tmít\tVERB\t_\t_\t4\tconj\t_\t_\n12\tbyste\tbýt\tAUX\t_\t_\t11\taux\t_\t_\n13\tnejprve\tnejprve\tADV\t_\t_\t14\tadvmod\t_\t_\n14\tověřit\tověřit\tVERB\t_\t_\t11\txcomp\t_\tSpaceAfter=No\n15\t,\t,\tPUNCT\t_\t_\t14\tpunct\t_\t_\n16\tzda\tzda\tSCONJ\t_\t_\t19\tmark\t_\t_\n17\tje\tbýt\tAUX\t_\t_\t19\tcop\t_\t_\n18\tvýzva\tvýzva\tNOUN\t_\t_\t19\tnsubj\t_\t_\n19\toprávněná\toprávněný\tADJ\t_\t_\t14\tccomp\t_\tSpaceAfter=No\n20\t.\t.\tPUNCT\t_\t_\t4\tpunct\t_\t_\n\n# sent_id = 2\n# text = Zkontrolujte datum, místo a popis přestupku.\n1\tZkontrolujte\tzkontrolovat\tVERB\t_\t_\t0\troot\t_\t_\n2\tdatum\tdatum\tNOUN\t_\t_\t1\tobj\t_\tSpaceAfter=No\n3\t,\t,\tPUNCT\t_\t_\t2\tpunct\t_\t_\n4\tmísto\tmísto\tNOUN\t_\t_\t2\tconj\t_\t_\n5\ta\ta\tCCONJ\t_\t_\t6\tcc\t_\t_\n6\tpopis\tpopis\tNOUN\t_\t_\t2\tconj\t_\t_\n7\tpřestupku\tpřestupek\tNOUN\t_\t_\t6\tnmod\t_\tSpaceAfter=No\n8\t.\t.\tPUNCT\t_\t_\t1\tpunct\t_\t_\n"
+}'
+```
+
+**View formatted output:**
+
+```bash
+curl -s -X POST http://localhost:8000/api/annotate \
+  -H "Content-Type: application/json" \
+  -d '{"result": "# sent_id = 1\n# text = Test věta.\n1\tTest\ttest\tNOUN\t_\t_\t0\troot\t_\t_\n2\tvěta\tvěta\tNOUN\t_\t_\t1\tnmod\t_\tSpaceAfter=No\n3\t.\t.\tPUNCT\t_\t_\t1\tpunct\t_\t_\n"}' \
+  | jq -r .result
+```
+
+The output will include `PonkApp3:` annotations in the MISC column (10th field) of annotated tokens.
+
+**Example annotated output:**
+```
+1  Test  ...  PonkApp3:01_Situace:abc123=start
+2  věta  ...  _
+3  .     ...  PonkApp3:01_Situace:abc123=end
+```
+
+### Health Check
+
+```bash
+curl http://localhost:8000/api/health
+# {"status": "ok"}
 ```
 
 ---

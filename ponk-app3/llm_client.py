@@ -13,7 +13,7 @@ class LLMClient:
     """Client for UFAL LLM API to get speech act annotations"""
     
     UFAL_API_ENDPOINT = "https://ai.ufal.mff.cuni.cz/api/chat/completions"
-    DEFAULT_MODEL = "LLM3-AMD-MI210.gpt-oss:120b"
+    DEFAULT_MODEL = "LLM3-AMD-MI210.llama3.3:latest"
     
     SYSTEM_MESSAGE = """You are an expert legal document annotator. Your task is to analyze Czech legal documents and provide structured JSON annotations. Always respond with valid JSON only, no additional text."""
     

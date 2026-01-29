@@ -1,0 +1,54 @@
+================================================================================
+PONK Module 3 - Speech Acts Annotation Results
+================================================================================
+
+Sentence 1:
+  Pokud jste obdrželi výzvu k zaplacení pokuty za přestupek, měli byste nejprve ověřit, zda je výzva oprávněná.
+
+  Annotations:
+    [Situation] Pokud (start), byste (end|)
+
+Sentence 2:
+  Zkontrolujte datum, místo a popis přestupku.
+
+  Annotations:
+    [Procedure] přestupku (end|)
+
+Sentence 3:
+  Máte právo podat odpor do 8 dnů od doručení.
+
+  Annotations:
+    [Process] doručení (end|)
+
+Sentence 4:
+  V případě, že nesouhlasíte s rozhodnutím, doporučujeme podat písemný odpor k příslušnému správnímu orgánu.
+
+  Annotations:
+    [Recommendations] rozhodnutím (end|)
+    [Procedure] odpor (end)
+    [Context] k (start)
+
+Sentence 5:
+  Správní orgán následně zahájí řízení a vydá rozhodnutí do 60 dnů.
+
+  Annotations:
+    [Context] Správní (end)
+
+Sentence 6:
+  Postup je následující: připravte si písemné odůvodnění, přiložte důkazy a podání odešlete doporučeně.
+
+Sentence 7:
+  V minulosti soudy často rozhodovaly ve prospěch občanů v podobných případech.
+
+Sentence 8:
+  Pro více informací navštivte naši stránku o přestupcích.
+
+================================================================================
+Summary of Speech Acts
+================================================================================
+
+  Situation (01_Situace): 1 span(s)
+  Context (02_Kontext): 1 span(s)
+  Procedure (03_Postup): 2 span(s)
+  Process (04_Proces): 1 span(s)
+  Recommendations (06_Doporučení): 1 span(s)
