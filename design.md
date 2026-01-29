@@ -10,6 +10,19 @@ Combining developed ponk-app3 shell (dir `ponk-app3`) with LLM annotation experi
 - receive & process response -> converted back to CONLLU format with annotations
 - send back to PONK app
 
+## MVP Implementation Plan
+
+| Step | Description | Status |
+|------|-------------|--------|
+| 1 | Wire up `llm_client.py` to call UFAL API (`https://ai.ufal.mff.cuni.cz/api/chat/completions`) | ✅ |
+| 2 | Update env vars: `AIUFAL_API_KEY`, model: `LLM3-AMD-MI210.gpt-oss:120b` | ✅ |
+| 3 | Update prompt: no overlapping spans, wrapper object `{"annotations": [...]}` | ✅ |
+| 4 | Add error handling & timeout config | ✅ |
+| 5 | Test locally with sample CoNLL-U | ✅ |
+| 6 | Deploy to ponk-app3 VM | ⏳ |
+
+**Note:** UFAL LLM model names require server prefix (e.g., `LLM3-AMD-MI210.gpt-oss:120b`). List available models: `curl -s -H "Authorization: Bearer $AIUFAL_API_KEY" https://ai.ufal.mff.cuni.cz/api/models`
+
 ## CoNLL-U Format & Annotation Strategy
 
 ### CoNLL-U Format Overview
@@ -86,16 +99,19 @@ CoNLL-U → Extract Text → LLM Prompt → LLM Response (char offsets) → Map 
 
 1. **Copy files to ponk-app3:**
    ```bash
-   # From local machine, copy via jump host
-   scp -r test_app tpolak@ufallab.ms.mff.cuni.cz:/tmp/
+   # From local machine, copy to jump host (exclude build artifacts)
+   rsync -av --exclude='.venv' --exclude='__pycache__' --exclude='*.pyc' \
+     --exclude='*.log' --exclude='.env' \
+     ponk-app3/ tpolak@ufallab.ms.mff.cuni.cz:~/ponk-app3-deploy/
+   
+   # SSH to jump host, then copy to ponk-app3
    ssh tpolak@ufallab.ms.mff.cuni.cz
-   ssh ponk-app3
-   cp -r /tmp/test_app ~/
+   rsync -av ~/ponk-app3-deploy/ ponk-app3:~/ponk-app3/
    ```
 
 2. **Install uv and deploy:**
    ```bash
-   cd ~/test_app
+   cd ~/ponk-app3
    
    # Install uv (if not already installed)
    curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -104,15 +120,132 @@ CoNLL-U → Extract Text → LLM Prompt → LLM Response (char offsets) → Map 
    # Create virtual environment and install dependencies
    uv venv
    source .venv/bin/activate
-   uv pip install -r requirements.txt
-   
-   # Run the app
-   python app.py
+   uv pip install .
    ```
 
-3. **Verify:**
+3. **Set up systemd service:**
+   See "Systemd Service Setup" section below for creating the service file.
+   After setup:
+   ```bash
+   sudo systemctl start ponk-app3
+   ```
+
+4. **Verify:**
    - Visit https://quest.ms.mff.cuni.cz/ponk-app3/
    - Or from ponk-app3: `curl http://localhost:8000/api/health`
+
+### Environment Variables
+
+Set these on ponk-app3 before running the app:
+
+```bash
+# Required: UFAL LLM API key (get from UFAL admin or Zimbra Briefcase)
+export AIUFAL_API_KEY="your-api-key-here"
+
+# Optional: override defaults
+export AIUFAL_ENDPOINT="https://ai.ufal.mff.cuni.cz/api/chat/completions"  # default
+export AIUFAL_MODEL="LLM3-AMD-MI210.gpt-oss:120b"                          # default
+export AIUFAL_USE_MOCK="true"                                               # for testing without API
+```
+
+**Environment file for systemd:**
+
+Create `~/ponk-app3/.env` with:
+```bash
+AIUFAL_API_KEY=your-api-key-here
+# Optional overrides:
+# AIUFAL_ENDPOINT=https://ai.ufal.mff.cuni.cz/api/chat/completions
+# AIUFAL_MODEL=LLM3-AMD-MI210.gpt-oss:120b
+```
+
+The systemd service (see below) reads this file via `EnvironmentFile=`, ensuring vars persist across VM restarts.
+
+To list available models:
+```bash
+curl -s -H "Authorization: Bearer $AIUFAL_API_KEY" https://ai.ufal.mff.cuni.cz/api/models
+```
+
+### Updating the Deployed App
+
+1. **Stop the running service:**
+   ```bash
+   ssh ponk-app3
+   sudo systemctl stop ponk-app3
+   ```
+
+2. **Copy updated files to ponk-app3:**
+   ```bash
+   # From local machine, copy to jump host (exclude build artifacts)
+   rsync -av --exclude='.venv' --exclude='__pycache__' --exclude='*.pyc' \
+     --exclude='*.log' --exclude='.env' \
+     ponk-app3/ tpolak@ufallab.ms.mff.cuni.cz:~/ponk-app3-update/
+   
+   # SSH to jump host, then sync to ponk-app3
+   ssh tpolak@ufallab.ms.mff.cuni.cz
+   
+   # Backup current version on ponk-app3 (optional)
+   ssh ponk-app3 "cp -r ~/ponk-app3 ~/ponk-app3.bak.\$(date +%Y%m%d)"
+   
+   # Sync updated files to ponk-app3
+   rsync -av ~/ponk-app3-update/ ponk-app3:~/ponk-app3/
+   ```
+
+3. **Update dependencies (only if pyproject.toml changed):**
+   ```bash
+   ssh ponk-app3
+   cd ~/ponk-app3
+   source .venv/bin/activate
+   uv pip install .
+   ```
+
+4. **Restart the service:**
+   ```bash
+   sudo systemctl start ponk-app3
+   
+   # Verify
+   systemctl status ponk-app3
+   curl http://localhost:8000/api/health
+   ```
+
+4. **Check logs if issues:**
+   ```bash
+   sudo journalctl -u ponk-app3 -f
+   ```
+
+### Systemd Service Setup
+
+Create `/etc/systemd/system/ponk-app3.service`:
+```ini
+[Unit]
+Description=PONK App3 Speech Acts Service
+After=network.target
+
+[Service]
+Type=simple
+User=tpolak
+WorkingDirectory=/home/tpolak/ponk-app3
+EnvironmentFile=/home/tpolak/ponk-app3/.env
+ExecStart=/home/tpolak/ponk-app3/.venv/bin/python app.py
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Enable and start:
+```bash
+sudo systemctl daemon-reload
+sudo systemctl enable ponk-app3
+sudo systemctl start ponk-app3
+```
+
+Useful commands:
+```bash
+sudo systemctl status ponk-app3   # check status
+sudo systemctl restart ponk-app3  # restart after updates
+sudo journalctl -u ponk-app3 -f   # follow logs
+```
 
 ---
 

@@ -3,11 +3,14 @@
 PONK Module 3 - Speech Acts Annotation Service
 Receives CoNLL-U, annotates with speech acts, returns annotated CoNLL-U
 """
+from dotenv import load_dotenv
 from flask import Flask, request, jsonify, make_response
 from conllu_processor import CoNLLUProcessor
 from llm_client import LLMClient
 import logging
 import json
+
+load_dotenv()
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -74,4 +77,6 @@ def annotate():
         return jsonify({'error': str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8000, debug=True)
+    import os
+    debug = os.getenv('FLASK_DEBUG', 'false').lower() in ('1', 'true', 'yes')
+    app.run(host='0.0.0.0', port=8000, debug=debug)

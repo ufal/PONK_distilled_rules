@@ -33,12 +33,13 @@ uv pip install flask requests
 
 ## Configuration
 
-Set environment variables for LLM API:
+Set environment variables for UFAL LLM API:
 
 ```bash
-export UFAL_LLM_ENDPOINT="http://llm-server:8080/v1/chat/completions"
-export UFAL_LLM_API_KEY="your_api_key"
-export UFAL_LLM_MODEL="gpt-4-turbo-preview"
+export AIUFAL_API_KEY="your_api_key"  # Required for real LLM calls
+# Optional overrides (defaults shown):
+export AIUFAL_ENDPOINT="https://ai.ufal.mff.cuni.cz/api/chat/completions"
+export AIUFAL_MODEL="LLM3-AMD-MI210.gpt-oss:120b"
 ```
 
 ## Running
@@ -126,9 +127,9 @@ curl -X POST http://localhost:8000/api/annotate \
 
 ## TODO
 
-- [ ] Implement actual UFAL LLM API integration (currently uses mock)
+- [x] Implement actual UFAL LLM API integration
+- [x] Add request timeout handling (600s)
 - [ ] Add error handling for malformed CoNLL-U
-- [ ] Add request timeout handling
 - [ ] Add logging to file
 - [ ] Add tests
 - [ ] Consider async processing for long documents

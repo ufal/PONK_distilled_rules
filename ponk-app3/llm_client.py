@@ -12,7 +12,10 @@ logger = logging.getLogger(__name__)
 class LLMClient:
     """Client for UFAL LLM API to get speech act annotations"""
     
-    SYSTEM_MESSAGE = """You are an expert legal document annotator. Your task is to analyze documents and provide structured JSON annotations. Always respond with valid JSON only, no additional text."""
+    UFAL_API_ENDPOINT = "https://ai.ufal.mff.cuni.cz/api/chat/completions"
+    DEFAULT_MODEL = "LLM3-AMD-MI210.gpt-oss:120b"
+    
+    SYSTEM_MESSAGE = """You are an expert legal document annotator. Your task is to analyze Czech legal documents and provide structured JSON annotations. Always respond with valid JSON only, no additional text."""
     
     USER_MESSAGE_TEMPLATE = """# Task: Annotate Legal Document with Speech Acts
 
@@ -53,8 +56,8 @@ Any other text.
 2. Identify meaningful text spans that correspond to one of the speech act categories above
 3. Spans can be of any length (words, sentences, paragraphs) - prefer smaller, more granular spans over large sections
 4. **Each category can and should be used multiple times throughout the document** - do not try to use each category only once
-5. Spans may overlap if a text segment serves multiple functions
-6. Every part of the document should be covered by at least one annotation
+5. **Spans must NOT overlap** - each character position belongs to at most one annotation
+6. Every part of the document should ideally be covered by at least one annotation
 
 ## Output Format
 
@@ -71,9 +74,11 @@ Return a JSON object with this structure:
 }}
 
 Where:
-- "start": character offset where the span begins (inclusive)
+- "start": character offset where the span begins (inclusive, 0-indexed)
 - "end": character offset where the span ends (exclusive)
 - "label": one of the speech act labels (01_Situace, 02_Kontext, etc.)
+
+**IMPORTANT: Spans must NOT overlap.** Each character position should belong to at most one annotation. If text could fit multiple categories, choose the most specific one.
 
 ## Document to Annotate
 
@@ -81,9 +86,10 @@ Where:
 """
     
     def __init__(self):
-        self.api_endpoint = os.getenv('UFAL_LLM_ENDPOINT', 'http://localhost:8080/v1/chat/completions')
-        self.api_key = os.getenv('UFAL_LLM_API_KEY', '')
-        self.model = os.getenv('UFAL_LLM_MODEL', 'gpt-4-turbo-preview')
+        self.api_endpoint = os.getenv('AIUFAL_ENDPOINT', self.UFAL_API_ENDPOINT)
+        self.api_key = os.getenv('AIUFAL_API_KEY', '')
+        self.model = os.getenv('AIUFAL_MODEL', self.DEFAULT_MODEL)
+        self.use_mock = os.getenv('AIUFAL_USE_MOCK', '').lower() in ('1', 'true', 'yes')
         
     def get_annotations(self, text: str) -> List[Dict]:
         """
@@ -95,11 +101,14 @@ Where:
         Returns:
             List of annotations: [{"start": int, "end": int, "label": str}, ...]
         """
-        # TODO: Implement actual LLM API call
-        # For now, return mock annotations for testing
-        logger.warning("Using mock LLM response - implement actual API call")
+        if self.use_mock or not self.api_key:
+            if self.use_mock:
+                logger.info("AIUFAL_USE_MOCK enabled - using mock LLM response")
+            else:
+                logger.warning("AIUFAL_API_KEY not set - using mock LLM response")
+            return self._mock_annotations(text)
         
-        return self._mock_annotations(text)
+        return self._call_llm_api(text)
     
     def _mock_annotations(self, text: str) -> List[Dict]:
         """Generate mock annotations for testing"""
@@ -119,22 +128,19 @@ Where:
             }
         ]
     
-    def _call_llm_api(self, text: str) -> Dict:
+    def _call_llm_api(self, text: str) -> List[Dict]:
         """
         Make actual API call to UFAL LLM
         
-        To implement:
-        1. Format request with system message and user prompt
-        2. Make HTTP POST to self.api_endpoint
-        3. Parse JSON response
-        4. Extract annotations from response
+        Returns:
+            List of annotations: [{"start": int, "end": int, "label": str}, ...]
         """
         import requests
         
         payload = {
             "model": self.model,
             "temperature": 0.2,
-            "max_tokens": 4096,
+            "max_tokens": 8192,
             "response_format": {"type": "json_object"},
             "messages": [
                 {"role": "system", "content": self.SYSTEM_MESSAGE},
@@ -144,26 +150,51 @@ Where:
         
         headers = {
             "Content-Type": "application/json",
+            "Authorization": f"Bearer {self.api_key}"
         }
         
-        if self.api_key:
-            headers["Authorization"] = f"Bearer {self.api_key}"
+        logger.info(f"Calling UFAL LLM API ({self.model}) for {len(text)} chars...")
         
         try:
             response = requests.post(
                 self.api_endpoint,
                 json=payload,
                 headers=headers,
-                timeout=300  # 5 min timeout
+                timeout=600  # 10 min timeout for long documents
             )
             response.raise_for_status()
             
             result = response.json()
             content = result['choices'][0]['message']['content']
+            
+            # Parse JSON response - handle both raw and markdown-wrapped JSON
+            content = content.strip()
+            if content.startswith('```'):
+                # Remove markdown code block wrapper
+                lines = content.split('\n')
+                content = '\n'.join(lines[1:-1]) if lines[-1].startswith('```') else '\n'.join(lines[1:])
+            
             annotations_data = json.loads(content)
             
-            return annotations_data['annotations']
+            # Handle both {"annotations": [...]} and direct [...] format
+            if isinstance(annotations_data, list):
+                annotations = annotations_data
+            else:
+                annotations = annotations_data.get('annotations', [])
             
+            logger.info(f"LLM returned {len(annotations)} annotations")
+            return annotations
+            
+        except requests.exceptions.Timeout:
+            logger.error("LLM API call timed out after 600 seconds")
+            raise
+        except requests.exceptions.HTTPError as e:
+            logger.error(f"LLM API HTTP error: {e.response.status_code} - {e.response.text}")
+            raise
+        except json.JSONDecodeError as e:
+            logger.error(f"Failed to parse LLM response as JSON: {e}")
+            logger.error(f"Raw content: {content[:500]}...")
+            raise
         except Exception as e:
             logger.error(f"LLM API call failed: {e}")
             raise

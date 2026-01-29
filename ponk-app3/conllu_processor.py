@@ -171,15 +171,20 @@ class CoNLLUProcessor:
             annotations: [{"start": int, "end": int, "label": str}, ...]
             token_map: [(sent_idx, token_idx, char_start, char_end), ...]
         """
+        logger.info(f"Mapping {len(annotations)} annotations to {len(token_map)} tokens")
         for annotation in annotations:
             start_char = annotation['start']
             end_char = annotation['end']
             label = annotation['label']
             span_id = str(uuid.uuid4())[:8]
             
+            logger.debug(f"Annotation: {label} chars {start_char}-{end_char}")
+            
             # Find start and end tokens
             start_token = self._find_token_at_char(start_char, token_map)
             end_token = self._find_token_at_char(end_char - 1, token_map)  # end is exclusive
+            
+            logger.info(f"Annotation {label} ({start_char}-{end_char}): start_token={start_token}, end_token={end_token}")
             
             if start_token and end_token:
                 sent_idx_start, tok_idx_start, _, _ = start_token
