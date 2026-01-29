@@ -1,0 +1,10 @@
+[project]
+name = "ponk-app3"
+version = "0.1.0"
+description = "PONK Module 3 - Speech Acts Annotation Service"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "flask>=2.0.0",
+    "requests>=2.31.0",
+]
